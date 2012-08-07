@@ -13,12 +13,10 @@ var game = {
         //sound.setAttribute('loop', 'loop');
         sound.play();
         setInterval(game.loop,300);
-		
 		//keyboard
 		keyboard.initializeKeyboard();
 		canvas = document.getElementById(sCanvasName);
 		canvas.onkeydown = keyboard.keydown;
-        
         //game.loop();
     },
     loop : function() {    
