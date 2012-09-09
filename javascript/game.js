@@ -37,7 +37,7 @@ var game = {
             alert("Could not get rendering context")
             return;
         } else {
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "green";
             ctx.fillRect(0,0,width,height);
             animation.monologBox(ctx,"This is a test",10,10,100,100,"white", "blue", "white");
                 
