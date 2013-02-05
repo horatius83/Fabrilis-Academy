@@ -1,0 +1,10 @@
+"use strict"
+var bullet = {
+    create : function(x,y,initializationFunction,updateFunction) {
+	var rv = { };
+	rv = initializationFunction();
+	rv.position = math2d.vector(x,y);
+	rv.update = updateFunction;
+	return rv;
+    }
+}

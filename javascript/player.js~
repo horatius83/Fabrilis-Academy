@@ -1,0 +1,9 @@
+"use strict"
+var player = {
+    create : function(model,x,y) {
+	this.model = model
+	this.x = x
+	this.y = y
+	this.bullets = []
+    }
+}

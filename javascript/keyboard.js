@@ -1,3 +1,36 @@
+var mouse = {
+    x : 0,
+    y : 0,
+    leftButtonPressed : false,
+    rightButtonPressed : false,
+
+    initialize : function(env) {
+	if(env.layerX || env.layerX == 0) { // Firefox
+	    mouse.update = function(e) {
+		mouse.x = e.layerX;
+		mouse.y = e.layerY;
+	    }
+	} else if(env.offsetX || env.offsetX == 0) { // Opera
+	    mouse.update = function(e) {
+		mouse.x = e.offsetX;
+		mouse.y = e.offsetY;
+	    }
+	} else {
+	    mouse.update = function(e) {
+		mouse.x = e.clientX;
+		mouse.y = e.clientY;
+	    };
+	}
+    },
+    _click : function(e, isLeftButtonPressed) {
+	mouse.x = e.pageX;
+	mouse.y = e.pageY;
+	mouse.leftButtonPressed = isLeftButtonPressed;
+    },
+    onMouseDown : function(e) { mouse._click(e,true); }, 
+    onMouseUp : function(e) { mouse._click(e,false); }
+};
+
 var keyboard = {
     initializeKeyboard : function() {
         //create key-code to boolean dictionary to keep track of key-presses
@@ -15,6 +48,7 @@ var keyboard = {
 		var ee = window.event || e;
 		//...
 		//profit!
+	    
 	},
 	
     //create a dictionary that maps key-codes to keys
@@ -42,6 +76,13 @@ var keyboard = {
         }
         return keyToKeyCodeDictionary;
     },
+    // For the sake of convenience...
+    key_up : 'key_up',
+    key_down : 'key_down',
+    key_left : 'key_left',
+    key_right : 'key_right',
+    
+
     createKeyTuples : function() {
         keyCodes = [];
         //number keys
@@ -56,7 +97,6 @@ var keyboard = {
         for(var i=0;i<26;++i) {
             keyCodes.push(["key_"+alphabet[i],i+48]);
         }
-        
         //misc keys
         miscKeys = [
             ['key_backspace',8],

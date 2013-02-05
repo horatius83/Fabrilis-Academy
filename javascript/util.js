@@ -1,3 +1,4 @@
+"use strict"
 var util = {
     isNull : function(x) {
         return (x === null || x === '' || x === undefined);
@@ -6,7 +7,9 @@ var util = {
     isNotNull : function(x) {
         return !util.isNull(x);
     },
-    
+    isInRange : function(min,x,max) {
+	return (min <= x && max >= x);
+    },
     getOrDefault : function(func,defaultValue) {
         try {
             var ans = func();
@@ -27,5 +30,11 @@ var util = {
             }
         }
         return true;
-    }
+    },
+    getFirstOrNull : function(arry,predicate) {
+	for(var i=0; i<arry.length; ++i) {
+	    if(predicate(arry[i])) return arry[i];
+	}
+	return null;
+    },
 }
