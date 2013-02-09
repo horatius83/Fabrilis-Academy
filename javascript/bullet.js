@@ -1,15 +1,16 @@
 "use strict"
+
 var bullets = {
     create : function(maxBullets, reloadTime) {
 	var rv = { bullets : [] };
 	rv.maxBullets = maxBullets;
 	rv.reloadTime = reloadTime;
 	rv.add = function(position, velocity, model) { 
-	    bullets.add(rv,position, velocity, model); };
+	    bullets.add(rv, position, velocity, model); };
 	rv.update = function(removeFunction) {
-	    bullets.update(rv,removeFunction); };
+	    bullets.update(rv, removeFunction); };
 	rv.render = function(ctx) {
-	    bullets.render(rv,ctx);}
+	    bullets.render(rv, ctx);}
 	rv.lastBulletFired = 0;
 	rv.model = null;
 	rv.velocity = null;
@@ -68,3 +69,4 @@ var bullets = {
 	}
     }
 }
+
