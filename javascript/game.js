@@ -27,9 +27,7 @@ var game = {
         animation.drawFrame(ctx, game.player.model, game.player.x, game.player.y, 0, game.player.frame, 2);
 	
 	//Draw player bullets
-	function bulletPredicate(x) {
-	    return !(util.isInRange(0,x.position.x,width) && util.isInRange(0,x.position.y,height));};
-	game.player.bullets.update(bulletPredicate);
+	game.player.bullets.update();
 	game.player.bullets.render(ctx);
     },
     input : function() {
@@ -37,7 +35,21 @@ var game = {
 	game.player.y = mouse.y / 2 - 16;
 	if(mouse.leftButtonPressed == true) {
 	    // Fire photon torpedoes!
-	    game.player.bullets.add(math2d.vector(game.player.x,game.player.y));
+	    var newBullet = {
+		position : math2d.vector(game.player.x, game.player.y),
+		vy : -1.0,
+		model : game.player.bullets.model,
+		keepAlive : function(t) {
+		    var element = document.getElementById(game.sCanvasName);
+		    var height = element.getAttribute("height");
+		    return newBullet.position.y < height && newBullet.position.y > 0;
+		},
+		update : function(t) {
+		    newBullet.position.y += newBullet.vy;
+		}
+	    };
+	    game.player.bullets.add(newBullet);
+	    //game.player.bullets.add(math2d.vector(game.player.x,game.player.y));
 	    mouse.leftButtonPressed = false; // This occurs on tablets as there is never a onMouseUp event sent
 	}
 	
@@ -47,13 +59,12 @@ var game = {
         game.sCanvasName = sCanvasName;
 	//Create the player
 	game.player = player.create(animation.createImage("images/Model.gif"),0,5*32);
-        game.player.bullets = bullets.create(20,1000);
+        game.player.bullets = bullets.createBulletManager(20,1000);
 	game.player.bullets.velocity = math2d.vector(0.0,-1.0);
 	game.player.bullets.model = animation.createImage("images/bullet.gif");
 	game.player.bullets.radius = 1.0;
 
 	game.tile = animation.createImage("images/Tile.gif");
-        
 	var sound = document.createElement('audio');
         //sound.setAttribute('src', 'sounds/Victory Fanfare.ogg');
         sound.setAttribute('preload', 'auto');
